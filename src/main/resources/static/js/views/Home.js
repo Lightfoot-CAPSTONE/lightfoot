@@ -1,15 +1,11 @@
+import getMapbox from "../Mapbox.js";
+
 export default function Home(props) {
     console.log("The frontend did it. HER FAULT");
-    return `
-        <header>
-            <h1>Home Page</h1>
-        </header>
-        <main>
-            <div>
-                <p>
-                    This is the home page text.
-                </p>    
-            </div>
-        </main>
+    //language=HTML
+    return `<div id="map" style="min-height: 600px;"></div>
     `;
+}
+export function HomeEvents(){
+    getMapbox();
 }
