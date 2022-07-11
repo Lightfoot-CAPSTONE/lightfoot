@@ -1,7 +1,7 @@
 # lightfoot
 
 <b> What is a lightfoot? <b>
-A "lightfoot" is programmed to arrive at their desired endpoint quickly and intact.
+A "lightfoot" is programmed to arrive at its desired endpoint quickly and intact.
 
 * lightfoot is a full-stack web application built with Mapbox GL JS that dynamically routes those on foot, bikes, and micro-transportation to their destination while avoiding hazardous areas.  
 
