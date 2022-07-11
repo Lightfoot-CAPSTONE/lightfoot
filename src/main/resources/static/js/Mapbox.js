@@ -9,3 +9,6 @@ export default function getMapbox(){
         zoom: 17 // starting zoom
     });
 }
+
+export function getGeo
+

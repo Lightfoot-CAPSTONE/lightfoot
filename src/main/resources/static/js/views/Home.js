@@ -8,4 +8,6 @@ export default function Home(props) {
 }
 export function HomeEvents(){
     getMapbox();
+    getGeocoder();
 }
+
