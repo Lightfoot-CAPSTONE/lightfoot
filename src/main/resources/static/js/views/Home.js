@@ -1,4 +1,9 @@
-import getMapbox, {getGeocoder, setGeocoderEvent, setMapLoadEvent} from "../Mapbox.js";
+import getMapbox, {
+    getGeocoder,
+    setGeocoderEvent,
+    setGoButtonEvent,
+    setMapLoadEvent
+} from "../Mapbox.js";
 export default function Home(props) {
     console.log("The frontend did it. HER FAULT");
     //language=HTML
@@ -7,6 +12,8 @@ export default function Home(props) {
 }
 export function HomeEvents(){
     getMapbox();
+    setGoButtonEvent();
+    setEndButtonEvent();
     getGeocoder();
     setGeocoderEvent();
     setMapLoadEvent();

@@ -25,8 +25,9 @@ export function getGeocoder(){
 }
 export function setGeocoderEvent(){
     //
-    geocoder.on('result',(data)=>{
-        getRoute(data.result.geometry.coordinates);
+    geocoder.on('result',async (data) => {
+        await getRoute(data.result.geometry.coordinates);
+        $(getGoButton()).insertAfter("#map");
     })
 }
 export function setMapLoadEvent(){
@@ -110,4 +111,15 @@ async function getRoute(end) {
     }
     // add turn instructions here at the end
 }
-
+export function getGoButton(){
+    //language=HTML
+    return `<button id="go-button">Go</button>`
+}
+export function setGoButtonEvent(){
+    $("#app").on("click","#go-button",function(){
+        console.log("go-button");
+    })
+}
+export function setEndButtonEvent(){
+    $("# ")
+}
