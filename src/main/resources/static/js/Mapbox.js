@@ -1,4 +1,5 @@
 import {MAPBOX} from "./keyfile.js";
+import {getAirNowByLatLong} from "./AirNowApi.js";
 //import {MapboxGeocoder} from '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.js';
 //import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
@@ -31,6 +32,18 @@ export function setGeocoderEvent(){
     })
 }
 export function setMapLoadEvent(){
+    map.on('click', (event) => {
+        console.log(event.lngLat)
+        center = [event.lngLat.lng,event.lngLat.lat]
+        map.flyTo({center:center})
+getAirNowByLatLong(event.lngLat)
+    })
+
+    // extract zipcode var from click-event
+    // send zipcode var to AirnowAPI
+    // return results
+
+/*
     map.on('load', () => {
         // make an initial directions request that
         // starts and ends at the same location
@@ -63,6 +76,7 @@ export function setMapLoadEvent(){
         });
         // this is where the code from the next step will go
     });
+*/
 
 }
 // create a function to make a directions request

@@ -4,7 +4,7 @@ import getMapbox, {
     setGoButtonEvent,
     setMapLoadEvent
 } from "../Mapbox.js";
-import getAirNowApi from "./AirNowApi.js";
+import getAirNowApi from "../AirNowApi.js";
 export default function Home(props) {
     console.log("The frontend did it. HER FAULT");
     //language=HTML
@@ -12,10 +12,10 @@ export default function Home(props) {
     `;
 }
 export function HomeEvents(){
-    getAirNowApi();
+  /*  getAirNowApi();*/
     getMapbox();
-    setGoButtonEvent();
-    setEndButtonEvent();
+   /* setGoButtonEvent();
+    setEndButtonEvent();*/
     getGeocoder();
     setGeocoderEvent();
     setMapLoadEvent();
