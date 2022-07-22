@@ -3,11 +3,11 @@ import {getAirNowByLatLong} from "./AirNowApi.js";
 //import {MapboxGeocoder} from '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.js';
 //import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
-let center = [-97.77,30.26]
+let center = [-97.77, 30.26]
 let map;
 let geocoder;
 
-export default function getMapbox(){
+export default function getMapbox() {
     mapboxgl.accessToken = MAPBOX;
     map = new mapboxgl.Map({
         container: 'map', // container ID
@@ -16,69 +16,94 @@ export default function getMapbox(){
         zoom: 17 // starting zoom
     });
 }
-export function getGeocoder(){
-  geocoder = new MapboxGeocoder({
+
+export function getGeocoder() {
+    geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
         mapboxgl: mapboxgl
     })
     // Add the control to the map.
     map.addControl(geocoder);
 }
-export function setGeocoderEvent(){
+
+export function setGeocoderEvent() {
     //
-    geocoder.on('result',async (data) => {
+    geocoder.on('result', async (data) => {
         await getRoute(data.result.geometry.coordinates);
         $(getGoButton()).insertAfter("#map");
     })
 }
-export function setMapLoadEvent(){
+
+export function setMapLoadEvent() {
+    const setAirData = async (lngLat) => {
+        const airdata = await getAirNowByLatLong(lngLat).then(rez => rez.json());
+        const airDataElements = airdata.map((data) => {
+            //language=HTML
+            return `
+                <div>${data.ParameterName}
+                    <h3>Current Quality</h3>
+                    <p>${data.Category.Name}</p>
+                    <h3>Date</h3>
+                    <p>${data.DateObserved}</p>
+                    <h3>Hour</h3>
+                    <p>${data.HourObserved}</p>
+                    <h3>Air Quality Index</h3>
+                    <p>${data.AQI}</p>
+                    <h3>Reporting Area</h3>
+                    <p>${data.ReportingArea}</p>
+                    <h3>State</h3>
+                    <p>${data.StateCode}</p>
+                </div>`
+        })
+        $('#airnowresults').append(airDataElements);
+    };
     map.on('click', (event) => {
-        console.log(event.lngLat)
-        center = [event.lngLat.lng,event.lngLat.lat]
-        map.flyTo({center:center})
-getAirNowByLatLong(event.lngLat)
+        center = [event.lngLat.lng, event.lngLat.lat]
+        map.flyTo({center: center})
+        setAirData(event.lngLat);
     })
 
     // extract zipcode var from click-event
     // send zipcode var to AirnowAPI
     // return results
 
-/*
-    map.on('load', () => {
-        // make an initial directions request that
-        // starts and ends at the same location
-        getRoute(center);
+    /*
+        map.on('load', () => {
+            // make an initial directions request that
+            // starts and ends at the same location
+            getRoute(center);
 
-        // Add starting point to the map
-        map.addLayer({
-            id: 'point',
-            type: 'circle',
-            source: {
-                type: 'geojson',
-                data: {
-                    type: 'FeatureCollection',
-                    features: [
-                        {
-                            type: 'Feature',
-                            properties: {},
-                            geometry: {
-                                type: 'Point',
-                                coordinates: start
+            // Add starting point to the map
+            map.addLayer({
+                id: 'point',
+                type: 'circle',
+                source: {
+                    type: 'geojson',
+                    data: {
+                        type: 'FeatureCollection',
+                        features: [
+                            {
+                                type: 'Feature',
+                                properties: {},
+                                geometry: {
+                                    type: 'Point',
+                                    coordinates: start
+                                }
                             }
-                        }
-                    ]
+                        ]
+                    }
+                },
+                paint: {
+                    'circle-radius': 10,
+                    'circle-color': '#3887be'
                 }
-            },
-            paint: {
-                'circle-radius': 10,
-                'circle-color': '#3887be'
-            }
+            });
+            // this is where the code from the next step will go
         });
-        // this is where the code from the next step will go
-    });
-*/
+    */
 
 }
+
 // create a function to make a directions request
 async function getRoute(end) {
     // make a directions request using cycling profile
@@ -86,7 +111,7 @@ async function getRoute(end) {
     // only the end or destination will change
     const query = await fetch(
         `https://api.mapbox.com/directions/v5/mapbox/cycling/${center[0]},${center[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`,
-        { method: 'GET' }
+        {method: 'GET'}
     );
     const json = await query.json();
     const data = json.routes[0];
@@ -125,15 +150,20 @@ async function getRoute(end) {
     }
     // add turn instructions here at the end
 }
-export function getGoButton(){
+
+export function getGoButton() {
     //language=HTML
-    return `<button id="go-button">Go</button>`
+    return `
+        < button
+        id = "go-button" > Go < /button>`
 }
-export function setGoButtonEvent(){
-    $("#app").on("click","#go-button",function(){
+
+export function setGoButtonEvent() {
+    $("#app").on("click", "#go-button", function () {
         console.log("go-button");
     })
 }
-export function setEndButtonEvent(){
+
+export function setEndButtonEvent() {
     $("# ")
 }

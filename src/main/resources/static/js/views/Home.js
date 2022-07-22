@@ -4,18 +4,19 @@ import getMapbox, {
     setGoButtonEvent,
     setMapLoadEvent
 } from "../Mapbox.js";
-import getAirNowApi from "../AirNowApi.js";
+
 export default function Home(props) {
     console.log("The frontend did it. HER FAULT");
     //language=HTML
-    return `<div id="map" style="min-height: 600px;"></div>
+    return `
+        <div id="map" style="min-height: 600px;"></div>
+
+        <div id="airnowresults" style="height: 50px;"></div>
     `;
 }
-export function HomeEvents(){
-  /*  getAirNowApi();*/
+
+export function HomeEvents() {
     getMapbox();
-   /* setGoButtonEvent();
-    setEndButtonEvent();*/
     getGeocoder();
     setGeocoderEvent();
     setMapLoadEvent();
