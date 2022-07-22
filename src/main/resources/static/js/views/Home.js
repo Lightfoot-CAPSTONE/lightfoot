@@ -11,7 +11,7 @@ export default function Home(props) {
     return `
         <div id="map" style="min-height: 600px;"></div>
 
-        <div id="airnowresults" style="height: 50px;"></div>
+        <div id="airnowresults" class="row" style="height: 50px;"></div>
     `;
 }
 

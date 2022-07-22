@@ -37,25 +37,28 @@ export function setGeocoderEvent() {
 export function setMapLoadEvent() {
     const setAirData = async (lngLat) => {
         const airdata = await getAirNowByLatLong(lngLat).then(rez => rez.json());
+        //language=HTML
+        const metadata = `
+            <div class="col-4">
+                <h3>Date</h3>
+                <p>${airdata[0].DateObserved}</p>
+                <h3>Hour</h3>
+                <p>${airdata[0].HourObserved}</p>
+                <h3>Reporting Area</h3>
+                <p>${airdata[0].ReportingArea} ${airdata[0].StateCode}</p>
+            </div>
+        `
         const airDataElements = airdata.map((data) => {
             //language=HTML
             return `
-                <div>${data.ParameterName}
-                    <h3>Current Quality</h3>
+                <div class="col-3"><h3>${data.ParameterName}</h3>
+                    <h4>Current Quality</h4>
                     <p>${data.Category.Name}</p>
-                    <h3>Date</h3>
-                    <p>${data.DateObserved}</p>
-                    <h3>Hour</h3>
-                    <p>${data.HourObserved}</p>
-                    <h3>Air Quality Index</h3>
+                    <h4>Air Quality Index</h4>
                     <p>${data.AQI}</p>
-                    <h3>Reporting Area</h3>
-                    <p>${data.ReportingArea}</p>
-                    <h3>State</h3>
-                    <p>${data.StateCode}</p>
                 </div>`
         })
-        $('#airnowresults').append(airDataElements);
+        $('#airnowresults').empty().append(metadata, airDataElements);
     };
     map.on('click', (event) => {
         center = [event.lngLat.lng, event.lngLat.lat]
