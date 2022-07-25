@@ -8,7 +8,7 @@ export default function getAirNowApi() {
 }
 
 export async function getAirNowByLatLong(coordinates) {
-    return await fetch(`https://www.airnowapi.org/aq/observation/latLong/current/?format=application/json&latitude=${coordinates.lat}&longitude=${coordinates.lng}&distance=50&API_KEY=${AIRNOW}`)
+    return await fetch(`https://www.airnowapi.org/aq/observation/latLong/current/?format=application/json&latitude=${coordinates.lat}&longitude=${coordinates.lng}&distance=150&API_KEY=${AIRNOW}`)
    /*     .then(rez=>rez.json())
         .then(data=>console.log(data))*/
 }

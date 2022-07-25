@@ -37,28 +37,8 @@ export function setGeocoderEvent() {
 export function setMapLoadEvent() {
     const setAirData = async (lngLat) => {
         const airdata = await getAirNowByLatLong(lngLat).then(rez => rez.json());
-        //language=HTML
-        const metadata = `
-            <div class="col-4">
-                <h3>Date</h3>
-                <p>${airdata[0].DateObserved}</p>
-                <h3>Hour</h3>
-                <p>${airdata[0].HourObserved}</p>
-                <h3>Reporting Area</h3>
-                <p>${airdata[0].ReportingArea} ${airdata[0].StateCode}</p>
-            </div>
-        `
-        const airDataElements = airdata.map((data) => {
-            //language=HTML
-            return `
-                <div class="col-3"><h3>${data.ParameterName}</h3>
-                    <h4>Current Quality</h4>
-                    <p>${data.Category.Name}</p>
-                    <h4>Air Quality Index</h4>
-                    <p>${data.AQI}</p>
-                </div>`
-        })
-        $('#airnowresults').empty().append(metadata, airDataElements);
+       setAirnowData(airdata);
+       setAirnowMarkers(airdata);
     };
     map.on('click', (event) => {
         center = [event.lngLat.lng, event.lngLat.lat]
@@ -166,7 +146,53 @@ export function setGoButtonEvent() {
         console.log("go-button");
     })
 }
-
-export function setEndButtonEvent() {
-    $("# ")
+function setAirnowData(airdata) {
+    //language=HTML
+    const metadata = `
+            <div class="col-4">
+                <h3>Date</h3>
+                <p>${airdata[0].DateObserved}</p>
+                <h3>Hour</h3>
+                <p>${airdata[0].HourObserved}</p>
+                <h3>Reporting Area</h3>
+                <p>${airdata[0].ReportingArea} ${airdata[0].StateCode}</p>
+            </div>
+        `
+    const airDataElements = airdata.map((data) => {
+        //language=HTML
+        return `
+                <div class="col-3"><h3>${data.ParameterName}</h3>
+                    <h4>Current Quality</h4>
+                    <p>${data.Category.Name}</p>
+                    <h4>Air Quality Index</h4>
+                    <p>${data.AQI}</p>
+                </div>`
+    })
+    $('#airnowresults').empty().append(metadata, airDataElements);
+}
+function setAirnowMarkers(airdata){
+    const geojson = {
+        type: 'FeatureCollection',
+        features: airdata.map((data) => {
+           return {
+            type: 'Feature',
+                geometry: {
+                type: 'Point',
+                    coordinates: [data.Longitude, data.Latitude]
+            },
+            properties: {
+                title: 'Mapbox',
+                    description: data.ReportingArea
+            }
+        }})
+    };
+    // add markers to map
+    for (const feature of geojson.features) {
+        // create a HTML element for each feature
+        const el = document.createElement('div');
+        el.className = 'marker';
+        // make a marker for each feature and add to the map
+       new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map);
+    }
+console.log($('.marker'))
 }
