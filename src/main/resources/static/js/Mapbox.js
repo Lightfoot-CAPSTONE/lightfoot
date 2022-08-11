@@ -1,5 +1,6 @@
 import {MAPBOX} from "./keyfile.js";
 import {getAirNowByLatLong} from "./AirNowApi.js";
+import {getBreezometer} from "./Breezometer.js";
 //import {MapboxGeocoder} from '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.js';
 //import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
@@ -13,7 +14,7 @@ export default function getMapbox() {
         container: 'map', // container ID
         style: 'mapbox://styles/mapbox/streets-v11', // style URL
         center: center, // starting position [lng, lat]
-        zoom: 17 // starting zoom
+        zoom: 10 // starting zoom
     });
 }
 
@@ -40,10 +41,15 @@ export function setMapLoadEvent() {
        setAirnowData(airdata);
        setAirnowMarkers(airdata);
     };
+    const setBreezometer = async (lngLat) => {
+        const breezometer = await getBreezometer(lngLat,map.getZoom()).then(rez => rez.json());
+        console.log(breezometer);
+    }
     map.on('click', (event) => {
         center = [event.lngLat.lng, event.lngLat.lat]
         map.flyTo({center: center})
         setAirData(event.lngLat);
+        setBreezometer(event.lngLat);
     })
 
     // extract zipcode var from click-event
@@ -187,12 +193,16 @@ function setAirnowMarkers(airdata){
         }})
     };
     // add markers to map
+   setMarkers(geojson)
+console.log($('.marker'))
+}
+function setMarkers(geojson){
+    $('.marker').remove();
     for (const feature of geojson.features) {
         // create a HTML element for each feature
         const el = document.createElement('div');
         el.className = 'marker';
         // make a marker for each feature and add to the map
-       new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map);
+        new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map);
     }
-console.log($('.marker'))
 }
