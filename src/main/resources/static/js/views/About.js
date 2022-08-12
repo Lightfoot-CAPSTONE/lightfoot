@@ -5,7 +5,7 @@ export default function About(props) {
         </header>
         <main>
             <div>
-                <p>About page is here.</p>  
+                <p>Lightfoot is a map-based web application that enables users to visualize air quality based on their location.  It's genesis arose naturally from the need to ensure air-quality while in space.</p>  
             </div>
         </main>
     `;
