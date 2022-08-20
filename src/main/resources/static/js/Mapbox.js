@@ -1,7 +1,9 @@
 import {MAPBOX} from "./keyfile.js";
 import {getAirNowByLatLong} from "./AirNowApi.js";
 import {getBreezometer} from "./Breezometer.js";
-//import {MapboxGeocoder} from '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.js';
+import {getInaturalist} from "./iNaturalist.js";
+
+ //import {MapboxGeocoder} from '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.js';
 //import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 let center = [-97.77, 30.26]
