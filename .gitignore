@@ -14,6 +14,8 @@ curriculum/
 .springBeans
 .sts4-cache
 
+run_lightfoot.sh
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
